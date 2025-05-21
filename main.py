@@ -1,7 +1,6 @@
-import streamlit as st
-from pydantic import BaseModel
+""import streamlit as st
+from pydantic import BaseModel, Field
 import json
-
 
 def generate_schema_from_code(code: str, model_name: str = None):
     """
@@ -10,7 +9,8 @@ def generate_schema_from_code(code: str, model_name: str = None):
     """
     local_ns = {}
     try:
-        exec(code, {}, local_ns)
+        # Provide BaseModel and Field in the execution environment
+        exec(code, {"BaseModel": BaseModel, "Field": Field}, local_ns)
     except Exception as e:
         return {"error": f"Code execution error: {e}"}
 
