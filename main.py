@@ -8,9 +8,9 @@ def generate_schema_from_code(code: str, model_name: str = None):
     Returns its JSON Schema dict.
     """
     local_ns = {}
+    global_ns = {"BaseModel": BaseModel, "Field": Field}
     try:
-        # Provide BaseModel and Field in the execution environment
-        exec(code, {"BaseModel": BaseModel, "Field": Field}, local_ns)
+        exec(code, global_ns, local_ns)
     except Exception as e:
         return {"error": f"Code execution error: {e}"}
 
